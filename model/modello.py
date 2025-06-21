@@ -45,8 +45,9 @@ class Model:
         return res
 
     def best_percorso(self):
-        for n in self.grafo.nodes():
+        for n in list(self.grafo.nodes):
             self.ricorsione(n, list(self.grafo.edges), [n])
+        return self.seqBest
 
 
     def is_ammissibile(self, parziale):
@@ -65,23 +66,24 @@ class Model:
         else:
             return True
 
+    def calcola_punteggio(self, parziale):
+        punteggioAttuale = 100 * len(parziale)
+        for i in range(1, len(parziale)):
+            if parziale[i].datetime.month == parziale[i - 1].datetime.month:
+                punteggioAttuale += 200
+        return punteggioAttuale
+
 
     def ricorsione(self, nodoPrec, edges, parziale):
         if self.is_ammissibile(parziale) == False:
             print('stop')
             return
         else:
-            punteggioAttuale = 100*len(parziale)
-
-            if len(parziale) > 1:
-                for i in range(1, len(parziale)):
-                    if parziale[i].datetime.month == parziale[i-1].datetime.month:
-                        punteggioAttuale += 200
-
-
-            if punteggioAttuale > self.punteggioBest:
+            punteggioAttuale = self.calcola_punteggio(parziale)
+            if punteggioAttuale >= self.punteggioBest:
                 self.punteggioBest = punteggioAttuale
-                self.seqBest = parziale
+                self.seqBest = parziale.copy()  #DA USARE SEMOPRE LA COPIA PER  NON GENERARE ERRORI !!!!
+                print(f"seq: {len(self.seqBest)} - {self.punteggioBest}")
 
             for edge in edges:
                 if edge[0] == nodoPrec and edge[0].duration < edge[1].duration:
@@ -92,13 +94,12 @@ class Model:
 
 if __name__ == "__main__":
     m = Model()
-    m.crea_grafo(1996, "circle")
-    nodes = list(m.grafo.nodes)
+    m.crea_grafo(2001, "circle")
     m.best_percorso()
     for n in m.seqBest:
         print(n)
     print(m.punteggioBest)
-    print(m.seqBest)
+    print(len(m.seqBest))
 
 
 

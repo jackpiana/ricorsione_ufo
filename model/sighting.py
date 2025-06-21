@@ -21,6 +21,9 @@ class Sighting:
     def __str__(self):
         return f"id: {self.id} -- city: {self.city} -- mese: {self.datetime.month}"
 
+    def __repr__(self):
+        return f"id: {self.id} -- city: {self.city} -- mese: {self.datetime.month}"
+
 
     def __hash__(self):
         return hash(self.id)

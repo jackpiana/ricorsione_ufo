@@ -30,7 +30,27 @@ class Controller:
         self._view.update_page()
 
     def handle_path(self, e):
-        pass
+        if self._view.ddyear.value is None:
+            self._view.create_alert("Selezionare un anno!")
+            return
+        anno = int(self._view.ddyear.value)
+        if self._view.ddshape.value is None or self._view.ddshape.value == "":
+            self._view.create_alert("Selezionare una shape!")
+            return
+        shape = self._view.ddshape.value
+
+        self._model.crea_grafo(anno, shape)
+
+        list_nodi_optimal_path = self._model.best_percorso()
+
+        self._view.txt_result2.controls.clear()
+
+        self._view.txt_result2.controls.append(ft.Text(f"Percorso ottimo: "))
+        for n in list_nodi_optimal_path:
+            self._view.txt_result2.controls.append(ft.Text(f"{n}"))
+
+        self._view.update_page()
+
 
     def fill_ddyear(self):
         years = self._model.get_years()
