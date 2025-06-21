@@ -20,8 +20,8 @@ class View(ft.UserControl):
         self.btn_graph = None
         self.btn_path = None
         # second row
-        self.txt_result1 = None  # Qui scrivere gli outputs del punto 1
-        self.txt_result2 = None  # Qui scrivere gli outputs del punto 2
+        self.txt_result1 = None  # lv dove scrivere gli outputs del punto 1
+        self.txt_result2 = None  # lv dove scrivere gli outputs del punto 2
 
     def load_interface(self):
         # title
@@ -42,8 +42,6 @@ class View(ft.UserControl):
         self.btn_path = ft.ElevatedButton(text="Calcola percorso",
                                           tooltip="Risolvi il punto 2",
                                           on_click=self._controller.handle_path)
-
-        self.btn_path.disabled = True
 
         row1 = ft.Row([self.ddyear, self.ddshape, self.btn_graph, self.btn_path],
                       alignment=ft.MainAxisAlignment.SPACE_EVENLY)
