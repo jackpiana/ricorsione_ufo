@@ -45,6 +45,8 @@ class Model:
         return res
 
     def best_percorso(self):
+        self.seqBest = None
+        self.punteggioBest = 0
         for n in list(self.grafo.nodes):
             self.ricorsione(n, list(self.grafo.edges), [n])
         return self.seqBest
